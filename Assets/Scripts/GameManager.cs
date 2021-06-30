@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public Grid grid;
 
+    private PlayerController playerController;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -32,13 +34,23 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i <= previews; i++)
         {
             bag.Add(Random.Range(0, 7));
+            Debug.Log(bag[i]);
         }
         currentPiece = bag[0];
+        playerController = player.GetComponent<PlayerController>();
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown("space")) placePiece();
+    }
 
+    public void placePiece()
+    {
+        bag.RemoveAt(0);
+        currentPiece = bag[0];
+        bag.Add(Random.Range(0, 7));
+        playerController.placeTiles();
     }
 
     public GameObject getPiece(int piece)
@@ -67,10 +79,5 @@ public class GameManager : MonoBehaviour
     public static int getCurrentInt()
     {
         return currentPiece;
-    }
-
-    public void placePiece()
-    {
-
     }
 }

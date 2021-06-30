@@ -6,21 +6,22 @@ public class PieceScript : MonoBehaviour
 {
     public GameObject[] tiles;
     public GameManager gameManager;
-    private Grid grid;
-
-    private void Start()
-    {
-        grid = gameManager.grid;
-    }
+    public Grid grid;
 
     // Returns true if nothing is on the left of each tile.
     public bool checkLeft()
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (Mathf.Round(gameManager.grid.getGridCoordinate(tiles[i].transform.position).x) == 0)
+            if (Mathf.Round(grid.getGridCoordinate(tiles[i].transform.position).x) == 0)
             {
-                Debug.Log("Left detected");
+                return false;
+            }
+            Vector3 pos = grid.getGridCoordinate(tiles[i].transform.position);
+            int x = Mathf.RoundToInt(pos.x);
+            int y = Mathf.RoundToInt(pos.y);
+            if (grid.getOccupied(x - 1, y))
+            {
                 return false;
             }
         }
@@ -32,9 +33,15 @@ public class PieceScript : MonoBehaviour
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (Mathf.Round(gameManager.grid.getGridCoordinate(tiles[i].transform.position).x) == 9)
+            if (Mathf.Round(grid.getGridCoordinate(tiles[i].transform.position).x) == 9)
             {
-                Debug.Log("Right detected");
+                return false;
+            }
+            Vector3 pos = grid.getGridCoordinate(tiles[i].transform.position);
+            int x = Mathf.RoundToInt(pos.x);
+            int y = Mathf.RoundToInt(pos.y);
+            if (grid.getOccupied(x + 1, y))
+            {
                 return false;
             }
         }
@@ -45,9 +52,15 @@ public class PieceScript : MonoBehaviour
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (Mathf.Round(gameManager.grid.getGridCoordinate(tiles[i].transform.position).y) == 0)
+            if (Mathf.Round(grid.getGridCoordinate(tiles[i].transform.position).y) == 0)
             {
-                Debug.Log("Down detected");
+                return false;
+            }
+            Vector3 pos = grid.getGridCoordinate(tiles[i].transform.position);
+            int x = Mathf.RoundToInt(pos.x);
+            int y = Mathf.RoundToInt(pos.y);
+            if (grid.getOccupied(x, y - 1))
+            {
                 return false;
             }
         }

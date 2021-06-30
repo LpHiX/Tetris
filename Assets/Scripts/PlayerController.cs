@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public GameObject game;
 
     private GameManager gameManager;
+    private Grid grid;
     private int piece;
     private GameObject currentObject;
     private PieceScript pieceScript;
@@ -22,10 +23,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         gameManager = game.GetComponent<GameManager>();
-        transform.position = gameManager.grid.getWorldPosition(Mathf.Floor((gameManager.xLength-1)/2), gameManager.yLength-1);
+        grid = gameManager.grid;
+        transform.position = grid.getWorldPosition(Mathf.Floor((gameManager.xLength-1)/2), gameManager.yLength-1);
         currentObject = Instantiate(gameManager.getPiece(GameManager.getCurrentInt()), transform, false) ;
         pieceScript = currentObject.GetComponent<PieceScript>();
         pieceScript.gameManager = gameManager;
+        pieceScript.grid = grid;
         StartCoroutine(Gravity());
     }
 
@@ -45,8 +48,23 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown("v")) debugTiles();
     }
-    void FixedUpdate()
+
+    public void placeTiles()
     {
+        for (int i = 0; i < pieceScript.tiles.Length; i++)
+        {
+            pieceScript.tiles[i].transform.parent = null;
+            int x = Mathf.RoundToInt(grid.getGridCoordinate(pieceScript.tiles[i].transform.position).x);
+            int y = Mathf.RoundToInt(grid.getGridCoordinate(pieceScript.tiles[i].transform.position).y);
+            grid.setPlaced(x, y);
+        }
+        Destroy(currentObject);
+        transform.position = grid.getWorldPosition(Mathf.Floor((gameManager.xLength - 1) / 2), gameManager.yLength - 1);
+        currentObject = Instantiate(gameManager.getPiece(GameManager.getCurrentInt()), transform, false);
+        pieceScript = currentObject.GetComponent<PieceScript>();
+        pieceScript.gameManager = gameManager;
+        pieceScript.grid = grid;
+        StartCoroutine(Gravity());
     }
 
     void moveLeft()
@@ -104,16 +122,15 @@ public class PlayerController : MonoBehaviour
     {
         for(int i = 0; i < pieceScript.tiles.Length; i++)
             {
-            Debug.Log(gameManager.grid.getGridCoordinate(pieceScript.tiles[i].transform.position));
+            Debug.Log(grid.getGridCoordinate(pieceScript.tiles[i].transform.position));
         }
     }
     IEnumerator Gravity()
     {
-        if (transform.position.y >= gameManager.grid.getWorldPosition(0,1).y)
+        if (transform.position.y >= grid.getWorldPosition(0,1).y)
         {
             moveDown();
             yield return new WaitForSeconds(0.5f);
-
             StartCoroutine(Gravity());
         }
         yield return null;

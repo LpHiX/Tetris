@@ -19,8 +19,6 @@ public class Grid
 
         gridArray = new int[width, height];
 
-        //Debug.Log("Instantiated Grid: " + width + " , " + height);
-
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
@@ -33,6 +31,41 @@ public class Grid
         }
         Debug.DrawLine(getWorldPosition(-0.5f, height - 0.5f), getWorldPosition(width - 0.5f, height - 0.5f), Color.white, 100f);
         Debug.DrawLine(getWorldPosition(width - 0.5f, - 0.5f), getWorldPosition(width - 0.5f, height - 0.5f), Color.white, 100f);
+    }
+
+    public void setPlaced(int x, int y)
+    {
+        try
+        {
+            gridArray[x, y] = 1;
+        }
+        catch (System.IndexOutOfRangeException ex)
+        {
+            Debug.LogWarning("Cannot place tile out of grid");
+        }
+    }
+    public bool getOccupied(int x, int y)
+    {
+        try
+        {
+            if (gridArray[x, y] == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (System.IndexOutOfRangeException ex)
+        {
+            return false;
+        }
+    }
+
+    public void cleanLine()
+    {
+
     }
 
     public Vector3 getWorldPosition(float x, float y)
