@@ -173,6 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6057447577292021421}
+  - component: {fileID: 5416948621966367299}
   m_Layer: 0
   m_Name: L Piece
   m_TagString: Untagged
@@ -198,6 +199,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5416948621966367299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5643390217701521956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d79955c9ddc752409e1c3b3b4d4a80c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 1608717681712548481}
+  - {fileID: 7303965581180662790}
+  - {fileID: 6413833407820478250}
+  - {fileID: 4804771997471561269}
 --- !u!1 &6413833407820478250
 GameObject:
   m_ObjectHideFlags: 0

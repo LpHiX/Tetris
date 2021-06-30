@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     private List<int> bag = new List<int>();
     public GameObject player;
-    private Grid grid;
+    public Grid grid;
 
     // Start is called before the first frame update
     void Awake()
@@ -67,5 +67,10 @@ public class GameManager : MonoBehaviour
     public static int getCurrentInt()
     {
         return currentPiece;
+    }
+
+    public void placePiece()
+    {
+
     }
 }

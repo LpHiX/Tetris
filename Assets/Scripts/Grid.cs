@@ -44,4 +44,9 @@ public class Grid
     {
         return new Vector3(x, y) * cellSize;
     }
+
+    public Vector3 getGridCoordinate(Vector3 position)
+    {
+        return new Vector3(position.x / cellSize + width / 2 - 0.5f, position.y / cellSize + height / 2 - 0.5f);
+    }
 }
