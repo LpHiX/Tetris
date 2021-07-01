@@ -86,6 +86,10 @@ public class PieceScript : MonoBehaviour
     {
         for (int i = 0; i < tiles.Length; i++)
         {
+            Utils.drawPoint(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle),0.5f, 1f);
+        }
+        for (int i = 0; i < tiles.Length; i++)
+        {
             if (grid.getOccupied(grid.getGridCoordinate(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle))))
             {
                 return;

@@ -38,11 +38,11 @@ public class Utils {
         return origin + new Vector3(x, y, displacement.z);
     }
 
-    public static void drawPoint(Vector3 point, float size)
+    public static void drawPoint(Vector3 point, float size, float time)
     {
         Vector3 horizontal = point + new Vector3(-size/2, 0, 0);
         Vector3 vertical = point + new Vector3(0, -size/2, 0);
-        Debug.DrawLine(horizontal, horizontal + new Vector3(size, 0, 0), Color.white, 100f);
-        Debug.DrawLine(vertical, vertical + new Vector3(0, size, 0), Color.white, 100f);
+        Debug.DrawLine(horizontal, horizontal + new Vector3(size, 0, 0), Color.white, time);
+        Debug.DrawLine(vertical, vertical + new Vector3(0, size, 0), Color.white, time);
     }
 }

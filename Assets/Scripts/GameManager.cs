@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
         currentPiece = bag[0];
         bag.Add(Random.Range(0, 7));
         playerController.placeTiles();
+
+        grid.clearFullLines();
     }
 
     public GameObject getPiece(int piece)

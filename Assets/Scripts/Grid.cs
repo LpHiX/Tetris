@@ -8,7 +8,7 @@ public class Grid
     private int height;
     private float cellSize;
     private Transform mainObject;
-    private int[,] gridArray;
+    private GameObject[,] gridArray;
     private GameObject backtile;
 
     //Grid height has to be x2, to account for if things gets pushed up and also to account for where blocks spawn
@@ -25,7 +25,7 @@ public class Grid
 
     private void createGrid()
     {
-        gridArray = new int[width, height * 2];
+        gridArray = new GameObject[width, height * 2];
 
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
@@ -40,14 +40,67 @@ public class Grid
         Debug.DrawLine(getWorldPosition(-0.5f, height - 0.5f), getWorldPosition(width - 0.5f, height - 0.5f), Color.white, 100f);
         Debug.DrawLine(getWorldPosition(width - 0.5f, -0.5f), getWorldPosition(width - 0.5f, height - 0.5f), Color.white, 100f);
     }
+    public void clearFullLines()
+    {
+        for (int y = 0; y < gridArray.GetLength(1); y++)
+        {
+            for (int x = 0; x < gridArray.GetLength(0); x++)
+            {
+                if (!getOccupied(x, y)) goto noneFound;
+            }
+            Debug.Log("Full line at " + y);
+            cleanLine(y);
+            y--;
+        noneFound:
+            continue;
+        }
+    }
+    public void cleanLine(int cleanedHeight)
+    {
+        for (int x = 0; x < gridArray.GetLength(0); x++)
+        {
+            GameObject.Destroy(getPlaced(x, cleanedHeight));
+        }
 
-    public void setPlaced(int x, int y)
+
+        for (int y = cleanedHeight; y < gridArray.GetLength(1) - 1; y++)
+        {
+            for (int x = 0; x < gridArray.GetLength(0); x++)
+            {
+                setPlaced(x, y, getPlaced(x, y + 1));
+            }
+        }
+    }
+    public GameObject getPlaced(int x, int y)
     {
         try
         {
-            gridArray[x, y] = 1;
+            return gridArray[x, y];
         }
-        catch (System.IndexOutOfRangeException ex)
+        catch (System.Exception ex) when (
+            ex is System.IndexOutOfRangeException
+        )
+        {
+            if(ex is System.IndexOutOfRangeException)
+            {
+                Debug.LogWarning("Tried to get a tile from outside the grid");
+            }
+        }
+        return null;
+    }
+
+
+    public void setPlaced(int x, int y, GameObject tile)
+    {
+        try
+        {
+            gridArray[x, y] = tile;
+            if (tile != null)
+            {
+                tile.transform.position = getWorldPosition(x, y);
+            }
+        }
+        catch (System.IndexOutOfRangeException)
         {
             Debug.LogWarning("Cannot place tile out of grid");
         }
@@ -60,7 +113,7 @@ public class Grid
     {
         try
         {
-            if (gridArray[x, y] == 1)
+            if (gridArray[x, y] != null)
             {
                 return true;
             }
@@ -69,15 +122,10 @@ public class Grid
                 return false;
             }
         }
-        catch (System.IndexOutOfRangeException ex)
+        catch (System.IndexOutOfRangeException)
         {
             return true;
         }
-    }
-
-    public void cleanLine()
-    {
-
     }
 
     public Vector3 getWorldPosition(float x, float y)

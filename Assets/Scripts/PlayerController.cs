@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             pieceScript.tiles[i].transform.parent = null;
             int x = Mathf.RoundToInt(grid.getGridCoordinate(pieceScript.tiles[i].transform.position).x);
             int y = Mathf.RoundToInt(grid.getGridCoordinate(pieceScript.tiles[i].transform.position).y);
-            grid.setPlaced(x, y);
+            grid.setPlaced(x, y, pieceScript.tiles[i]);
         }
         Destroy(currentObject);
         transform.position = grid.getWorldPosition(Mathf.Floor((gameManager.xLength - 1) / 2), gameManager.yLength - 1);
