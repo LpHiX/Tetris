@@ -70,29 +70,30 @@ public class PieceScript : MonoBehaviour
 
     public void rotateRight()
     {
-        //Debug.Log("Starting rotate function");
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            if(grid.getOccupied(grid.getGridCoordinate(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), Mathf.PI * 1.5f))))
-            {
-                //Debug.Log("Obstacles detected upon rotation");
-                return;
-            }
-        }
-        //Debug.Log("Rotate attempted");
-        //Utils.drawPoint(transform.TransformPoint(centerOfRotation), 0.5f);
-        //Utils.drawPoint(Utils.returnRotate(tiles[0].transform.position, transform.TransformPoint(centerOfRotation), Mathf.PI * 1.5f), 0.5f);
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            tiles[i].transform.position = Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), Mathf.PI * 1.5f);
-        }
+        tryRotate(Mathf.PI * 1.5f);
     }
     public void rotateLeft()
     {
-
+        tryRotate(Mathf.PI * 0.5f);
     }
     public void rotate180()
     {
+        tryRotate(Mathf.PI);
+    }
 
+    // Attempts rotate piece for the given angle, in radians.
+    public void tryRotate(float angle)
+    {
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (grid.getOccupied(grid.getGridCoordinate(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle))))
+            {
+                return;
+            }
+        }
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            tiles[i].transform.position = Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle);
+        }
     }
 }

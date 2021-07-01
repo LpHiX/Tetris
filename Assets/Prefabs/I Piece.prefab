@@ -381,4 +381,4 @@ MonoBehaviour:
   - {fileID: 8350672045614035231}
   - {fileID: 8350672045224471473}
   gameManager: {fileID: 0}
-  centerOfRotation: {x: 0, y: -0.32, z: 0}
+  centerOfRotation: {x: 0.32, y: -0.32, z: 0}

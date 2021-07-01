@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
         grid = new Grid(xLength, yLength, cellSize, transform, backtile);
         for (int i = 0; i <= previews; i++)
         {
-            bag.Add(Random.Range(0, 7));
+            //bag.Add(Random.Range(0, 7));
+            bag.Add(0);
         }
         currentPiece = bag[0];
         playerController = player.GetComponent<PlayerController>();

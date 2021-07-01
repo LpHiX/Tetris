@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         pieceScript = currentObject.GetComponent<PieceScript>();
         pieceScript.gameManager = gameManager;
         pieceScript.grid = grid;
-        StartCoroutine(Gravity());
+        //StartCoroutine(Gravity());
     }
 
     // Update is called once per frame
@@ -65,8 +65,8 @@ public class PlayerController : MonoBehaviour
         pieceScript = currentObject.GetComponent<PieceScript>();
         pieceScript.gameManager = gameManager;
         pieceScript.grid = grid;
-        StopCoroutine(Gravity());
-        StartCoroutine(Gravity());
+        //StopCoroutine(Gravity());
+        //StartCoroutine(Gravity());
     }
 
     void rotateRight()
