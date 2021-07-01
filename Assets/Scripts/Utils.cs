@@ -27,4 +27,22 @@ public class Utils {
         Debug.Log(textMesh.transform.position);
         return textMesh;
     }
+    
+    // Gets the position of a point, after it is rotated around a given point by a given angle
+    public static Vector3 returnRotate(Vector3 target, Vector3 origin, float angle)
+    {
+        Vector3 displacement = target - origin;
+        //Apply rotation matrix
+        float x = displacement.x * Mathf.Cos(angle) - displacement.y * Mathf.Sin(angle);
+        float y = displacement.x * Mathf.Sin(angle) + displacement.y * Mathf.Cos(angle);
+        return origin + new Vector3(x, y, displacement.z);
+    }
+
+    public static void drawPoint(Vector3 point, float size)
+    {
+        Vector3 horizontal = point + new Vector3(-size/2, 0, 0);
+        Vector3 vertical = point + new Vector3(0, -size/2, 0);
+        Debug.DrawLine(horizontal, horizontal + new Vector3(size, 0, 0), Color.white, 100f);
+        Debug.DrawLine(vertical, vertical + new Vector3(0, size, 0), Color.white, 100f);
+    }
 }

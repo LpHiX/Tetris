@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i <= previews; i++)
         {
             bag.Add(Random.Range(0, 7));
-            Debug.Log(bag[i]);
         }
         currentPiece = bag[0];
         playerController = player.GetComponent<PlayerController>();
@@ -44,7 +43,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown("space")) placePiece();
     }
-
     public void placePiece()
     {
         bag.RemoveAt(0);

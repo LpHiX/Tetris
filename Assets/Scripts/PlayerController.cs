@@ -39,12 +39,13 @@ public class PlayerController : MonoBehaviour
         ARRtimer -= Time.deltaTime;
         SDFtimer -= Time.deltaTime;
 
-        float xInput = Input.GetAxis("Horizontal");
-        float yInput = Input.GetAxis("Vertical");
+        if (Input.GetButton("left")) moveLeft();
+        if (Input.GetButton("right")) moveRight();
+        if (Input.GetButton("softdrop")) inputDown();
 
-        if (Input.GetKey("a")) moveLeft();
-        if (Input.GetKey("d")) moveRight();
-        if (Input.GetKey("s")) inputDown();
+        if (Input.GetButtonDown("rotateLeft")) rotateLeft();
+        if (Input.GetButtonDown("rotateRight")) rotateRight();
+        if (Input.GetButtonDown("rotate180")) rotate180();
 
         if (Input.GetKeyDown("v")) debugTiles();
     }
@@ -64,14 +65,29 @@ public class PlayerController : MonoBehaviour
         pieceScript = currentObject.GetComponent<PieceScript>();
         pieceScript.gameManager = gameManager;
         pieceScript.grid = grid;
+        StopCoroutine(Gravity());
         StartCoroutine(Gravity());
+    }
+
+    void rotateRight()
+    {
+        pieceScript.rotateRight();
+    }
+    void rotateLeft()
+    {
+        pieceScript.rotateLeft();
+    }
+
+    void rotate180()
+    {
+        pieceScript.rotate180();
     }
 
     void moveLeft()
     {
         if (pieceScript.checkLeft())
         {
-            if (Input.GetKeyDown("a"))
+            if (Input.GetButtonDown("left"))
             {
                 DAStimer = DAS;
                 ARRtimer = ARR;
@@ -89,7 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         if (pieceScript.checkRight())
         {
-            if (Input.GetKeyDown("d"))
+            if (Input.GetButtonDown("right"))
             {
                 DAStimer = DAS;
                 ARRtimer = ARR;
@@ -122,6 +138,7 @@ public class PlayerController : MonoBehaviour
     {
         for(int i = 0; i < pieceScript.tiles.Length; i++)
             {
+            Debug.Log(grid.getGridCoordinate(currentObject.transform.position) + " MAIN");
             Debug.Log(grid.getGridCoordinate(pieceScript.tiles[i].transform.position));
         }
     }
