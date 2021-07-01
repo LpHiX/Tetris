@@ -37,8 +37,8 @@ public class Grid
                 GameObject.Instantiate(backtile, getWorldPosition(x, y), Quaternion.identity);
             }
         }
-        Debug.DrawLine(getWorldPosition(-0.5f, height / 2 - 0.5f), getWorldPosition(width - 0.5f, height / 2 - 0.5f), Color.white, 100f);
-        Debug.DrawLine(getWorldPosition(width - 0.5f, -0.5f), getWorldPosition(width - 0.5f, height / 2 - 0.5f), Color.white, 100f);
+        Debug.DrawLine(getWorldPosition(-0.5f, height - 0.5f), getWorldPosition(width - 0.5f, height - 0.5f), Color.white, 100f);
+        Debug.DrawLine(getWorldPosition(width - 0.5f, -0.5f), getWorldPosition(width - 0.5f, height - 0.5f), Color.white, 100f);
     }
 
     public void setPlaced(int x, int y)
@@ -92,6 +92,6 @@ public class Grid
 
     public Vector3 getGridCoordinate(Vector3 position)
     {
-        return new Vector3(position.x / cellSize + width / 2 - 0.5f, position.y / cellSize + height / 2 - 0.5f);
+        return new Vector3(position.x / cellSize + width / 2 - (float)(width - 1) % 2 / 2, position.y / cellSize + height / 2 - 0.5f);
     }
 }

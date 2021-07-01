@@ -41,13 +41,23 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton("left")) moveLeft();
         if (Input.GetButton("right")) moveRight();
-        if (Input.GetButton("softdrop")) inputDown();
+        if (Input.GetButton("softDrop")) inputDown();
 
         if (Input.GetButtonDown("rotateLeft")) rotateLeft();
         if (Input.GetButtonDown("rotateRight")) rotateRight();
         if (Input.GetButtonDown("rotate180")) rotate180();
+        if (Input.GetButtonDown("hardDrop")) hardDrop() ;
 
         if (Input.GetKeyDown("v")) debugTiles();
+    }
+
+    public void hardDrop()
+    {
+        while(!pieceScript.checkDown())
+        {
+            transform.position = transform.position + new Vector3(0, -gameManager.cellSize, 0);
+        }
+        gameManager.placePiece();
     }
 
     public void placeTiles()
@@ -85,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
     void moveLeft()
     {
-        if (pieceScript.checkLeft())
+        if (!pieceScript.checkLeft())
         {
             if (Input.GetButtonDown("left"))
             {
@@ -103,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
     void moveRight()
     {
-        if (pieceScript.checkRight())
+        if (!pieceScript.checkRight())
         {
             if (Input.GetButtonDown("right"))
             {
@@ -123,22 +133,18 @@ public class PlayerController : MonoBehaviour
         if (SDFtimer <= 0)
         {
             SDFtimer = SDF;
-            moveDown();
-        }
-    }
-    void moveDown()
-    {
-        if (pieceScript.checkDown())
-        {
-            transform.position = transform.position + new Vector3(0, -gameManager.cellSize, 0);
+            if (!pieceScript.checkDown())
+            {
+                transform.position = transform.position + new Vector3(0, -gameManager.cellSize, 0);
+            }
         }
     }
 
     void debugTiles()
     {
-        for(int i = 0; i < pieceScript.tiles.Length; i++)
+        Debug.Log(grid.getGridCoordinate(currentObject.transform.position) + " MAIN");
+        for (int i = 0; i < pieceScript.tiles.Length; i++)
             {
-            Debug.Log(grid.getGridCoordinate(currentObject.transform.position) + " MAIN");
             Debug.Log(grid.getGridCoordinate(pieceScript.tiles[i].transform.position));
         }
     }
@@ -146,7 +152,10 @@ public class PlayerController : MonoBehaviour
     {
         if (transform.position.y >= grid.getWorldPosition(0,1).y)
         {
-            moveDown();
+            if (!pieceScript.checkDown())
+            {
+                transform.position = transform.position + new Vector3(0, -gameManager.cellSize, 0);
+            }
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(Gravity());
         }

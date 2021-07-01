@@ -33,16 +33,10 @@ public class GameManager : MonoBehaviour
         grid = new Grid(xLength, yLength, cellSize, transform, backtile);
         for (int i = 0; i <= previews; i++)
         {
-            //bag.Add(Random.Range(0, 7));
-            bag.Add(0);
+            bag.Add(Random.Range(0, 7));
         }
         currentPiece = bag[0];
         playerController = player.GetComponent<PlayerController>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown("space")) placePiece();
     }
     public void placePiece()
     {

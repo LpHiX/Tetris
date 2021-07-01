@@ -9,63 +9,63 @@ public class PieceScript : MonoBehaviour
     public Grid grid;
     public Vector3 centerOfRotation;
 
-    // Returns true if nothing is on the left of each tile.
+    // Returns true if something is to the left
     public bool checkLeft()
     {
         for (int i = 0; i < tiles.Length; i++)
         {
             if (Mathf.Round(grid.getGridCoordinate(tiles[i].transform.position).x) == 0)
             {
-                return false;
+                return true;
             }
             Vector3 pos = grid.getGridCoordinate(tiles[i].transform.position);
             int x = Mathf.RoundToInt(pos.x);
             int y = Mathf.RoundToInt(pos.y);
             if (grid.getOccupied(x - 1, y))
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    // Returns true if nothing is on the right of each tile.
+    // Returns true if something is to the right
     public bool checkRight()
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (Mathf.Round(grid.getGridCoordinate(tiles[i].transform.position).x) == 9)
+            if (Mathf.Round(grid.getGridCoordinate(tiles[i].transform.position).x) == gameManager.xLength-1)
             {
-                return false;
+                return true;
             }
             Vector3 pos = grid.getGridCoordinate(tiles[i].transform.position);
             int x = Mathf.RoundToInt(pos.x);
             int y = Mathf.RoundToInt(pos.y);
             if (grid.getOccupied(x + 1, y))
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
-
+    // Returns true if something is to the bottom
     public bool checkDown()
     {
         for (int i = 0; i < tiles.Length; i++)
         {
             if (Mathf.Round(grid.getGridCoordinate(tiles[i].transform.position).y) == 0)
             {
-                return false;
+                return true;
             }
             Vector3 pos = grid.getGridCoordinate(tiles[i].transform.position);
             int x = Mathf.RoundToInt(pos.x);
             int y = Mathf.RoundToInt(pos.y);
             if (grid.getOccupied(x, y - 1))
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void rotateRight()
