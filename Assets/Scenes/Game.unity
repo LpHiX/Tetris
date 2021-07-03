@@ -387,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1968966051}
   - component: {fileID: 1968966052}
+  - component: {fileID: 1968966053}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -424,3 +425,86 @@ MonoBehaviour:
   DAS: 0.133
   ARR: 0
   SDF: 0
+--- !u!114 &1968966053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968966050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: d977d4442a9d9844ba48ff74b8b64a2a,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7e86fdde-c589-4326-9296-be8d7340e0fe
+    m_ActionName: Player/Soft Drop[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 36b3d403-8c65-4042-a260-c7b55fb8635d
+    m_ActionName: Player/Hard Drop[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bb4f3d7b-1285-474d-b0f4-0adc5795b9ce
+    m_ActionName: Player/Rotation 180[/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fdb43041-e8a3-4363-8c32-d14187dcbb6c
+    m_ActionName: Player/Hold[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a046b821-fe44-41b7-a700-394b0a4b4b40
+    m_ActionName: Menu/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cecc00b9-364f-4a24-8d99-ffcfea496a4c
+    m_ActionName: Menu/Horizontal[/Keyboard/a,/Keyboard/d,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: adf2b5b1-7a77-4650-bbad-e59bc2e1fd13
+    m_ActionName: Menu/Vertical[/Keyboard/s,/Keyboard/w,/Keyboard/upArrow,/Keyboard/downArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f139108-2bc0-4585-bcf8-3261e568b9e9
+    m_ActionName: Menu/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 86738a79-ae6f-4b1a-87b2-7e052f8dd43d
+    m_ActionName: Debug/Debug Key[/Keyboard/v]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0b28bfd-44c2-47a1-b4c2-9d193c9f065c
+    m_ActionName: Player/Left[/Keyboard/leftArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9aaf906e-a31e-433d-8af4-809a61fdcf30
+    m_ActionName: Player/Right[/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a97723a3-80a8-4eac-8e7b-cfafaab96492
+    m_ActionName: Player/Rotate Left[/Keyboard/downArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0b6de78-a957-4b91-9940-186b042e54aa
+    m_ActionName: Player/Rotate Right[/Keyboard/upArrow]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

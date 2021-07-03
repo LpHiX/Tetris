@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class PlayerController : MonoBehaviour
 {
+    Controls controls;
+
     public GameObject game;
 
     private GameManager gameManager;
@@ -23,12 +27,57 @@ public class PlayerController : MonoBehaviour
 
     private bool holdCooldown = false;
 
+    bool rightPressed;
+    bool leftPressed;
+
+    private void Awake()
+    {
+        controls = new Controls();
+        controls.Player.RotateLeft.started += ctx => rotateLeft();
+        controls.Player.RotateRight.started += ctx => rotateRight();
+        controls.Player.Rotate180.started += ctx => rotate180();
+        controls.Player.HardDrop.started += ctx => hardDrop();
+        controls.Player.Hold.started += ctx => hold();
+        controls.Player.Right.started += ctx =>
+        {
+            rightPressed = true;
+            Debug.Log("Right");
+            if (!pieceScript.checkRight())
+            {
+                DAStimer = DAS;
+                transform.position = transform.position + new Vector3(gameManager.cellSize, 0, 0);
+            }
+        };
+        controls.Player.Right.canceled += ctx => rightPressed = false;
+        controls.Player.Left.started += ctx =>
+        {
+            leftPressed = true;
+            Debug.Log("Left");
+            if (!pieceScript.checkLeft())
+            {
+                DAStimer = DAS;
+                transform.position = transform.position + new Vector3(-gameManager.cellSize, 0, 0);
+            }
+        };
+        controls.Player.Left.canceled += ctx => leftPressed = false;
+    }
+
     void Start()
     {
         gameManager = game.GetComponent<GameManager>();
         grid = gameManager.grid;
         previewUI = gameManager.previewUI;
         newPiece();
+    }
+
+    private void OnEnable()
+    {
+        controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
     }
 
     // Update is called once per frame
@@ -38,17 +87,8 @@ public class PlayerController : MonoBehaviour
         ARRtimer -= Time.deltaTime;
         SDFtimer -= Time.deltaTime;
 
-        if (Input.GetButton("left")) moveLeft();
-        if (Input.GetButton("right")) moveRight();
-        if (Input.GetButton("softDrop")) inputDown();
-
-        if (Input.GetButtonDown("rotateLeft")) rotateLeft();
-        if (Input.GetButtonDown("rotateRight")) rotateRight();
-        if (Input.GetButtonDown("rotate180")) rotate180();
-        if (Input.GetButtonDown("hardDrop")) hardDrop() ;
-        if (Input.GetButtonDown("hold")) hold();
-
-        if (Input.GetKeyDown("v")) debugTiles();
+        if (rightPressed) moveRight();
+        if (leftPressed) moveLeft();
     }
 
     public void hold()
@@ -125,30 +165,24 @@ public class PlayerController : MonoBehaviour
         newPiece();
     }
 
-    void rotateRight()
+    public void rotateRight()
     {
         pieceScript.rotateRight();
     }
-    void rotateLeft()
+    public void rotateLeft()
     {
         pieceScript.rotateLeft();
     }
 
-    void rotate180()
+    public void rotate180()
     {
         pieceScript.rotate180();
     }
 
-    void moveLeft()
+    public void moveLeft()
     {
         if (!pieceScript.checkLeft())
         {
-            if (Input.GetButtonDown("left"))
-            {
-                DAStimer = DAS;
-                ARRtimer = ARR;
-                transform.position = transform.position + new Vector3(-gameManager.cellSize, 0, 0);
-            }
             if (DAStimer <= 0 && ARRtimer <= 0)
             {
                 ARRtimer = ARR;
@@ -161,12 +195,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!pieceScript.checkRight())
         {
-            if (Input.GetButtonDown("right"))
-            {
-                DAStimer = DAS;
-                ARRtimer = ARR;
-                transform.position = transform.position + new Vector3(gameManager.cellSize, 0, 0);
-            }
             if (DAStimer <= 0 && ARRtimer <= 0)
             {
                 ARRtimer = ARR;
@@ -174,7 +202,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    void inputDown()
+    public void onSoftDrop()
     {
         if (SDFtimer <= 0)
         {
@@ -186,7 +214,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void debugTiles()
+    public void debugTiles()
     {
         Debug.Log(grid.getGridCoordinate(currentObject.transform.position) + " MAIN");
         for (int i = 0; i < pieceScript.tiles.Length; i++)
