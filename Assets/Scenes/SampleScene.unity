@@ -373,7 +373,7 @@ MonoBehaviour:
   sPiece: {fileID: 1823146484422168201, guid: 0710dace22369df458339b7d28f8f9c0, type: 3}
   tPiece: {fileID: 1271655886180207298, guid: 87c51d41833a47942ad54ea48462811b, type: 3}
   zPiece: {fileID: 2453912490667410581, guid: 6c14adfc85c38c94ca034f1b1464a64a, type: 3}
-  previews: 4
+  previews: 10
   player: {fileID: 1968966050}
 --- !u!1 &1968966050
 GameObject:
@@ -420,4 +420,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game: {fileID: 1964369452}
   DAS: 0.133
-  ARR: 0.05
+  ARR: 0
+  SDF: 0.05

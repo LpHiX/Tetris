@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         pieceScript = currentObject.GetComponent<PieceScript>();
         pieceScript.gameManager = gameManager;
         pieceScript.grid = grid;
+        pieceScript.pieceIndex = GameManager.getCurrentInt();
         //StartCoroutine(Gravity());
     }
 
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
         pieceScript = currentObject.GetComponent<PieceScript>();
         pieceScript.gameManager = gameManager;
         pieceScript.grid = grid;
+        pieceScript.pieceIndex = GameManager.getCurrentInt();
         //StopCoroutine(Gravity());
         //StartCoroutine(Gravity());
     }

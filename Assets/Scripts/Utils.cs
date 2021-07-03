@@ -45,4 +45,72 @@ public class Utils {
         Debug.DrawLine(horizontal, horizontal + new Vector3(size, 0, 0), Color.white, time);
         Debug.DrawLine(vertical, vertical + new Vector3(0, size, 0), Color.white, time);
     }
+    public static Vector3 getWallKickData(int from, int to, int testNumber)
+    {
+        Vector3[,] wallKickData = new Vector3[,] {
+            {new Vector3(0,0), new Vector3(-1,0), new Vector3(-1,1), new Vector3(0,-2), new Vector3(-1,-2)},
+            {new Vector3(0,0), new Vector3(1,0), new Vector3(1,-1), new Vector3(0,2), new Vector3(1,2)},
+            {new Vector3(0,0), new Vector3(1,0), new Vector3(1,-1), new Vector3(0,2), new Vector3(1,2)},
+            {new Vector3(0,0), new Vector3(-1,0), new Vector3(-1,1), new Vector3(0,-2), new Vector3(-1,-2)},
+            {new Vector3(0,0), new Vector3(1,0), new Vector3(1,1), new Vector3(0,-2), new Vector3(1,-2)},
+            {new Vector3(0,0), new Vector3(-1,0), new Vector3(-1,-1), new Vector3(0,2), new Vector3(-1,2) },
+            {new Vector3(0,0), new Vector3(-1,0), new Vector3(-1,-1), new Vector3(0,2), new Vector3(-1,2) },
+            {new Vector3(0,0), new Vector3(1,0), new Vector3(1,1), new Vector3(0,-2), new Vector3(1,-2) }};
+        var rotation = (from, to);
+        switch (rotation)
+        {
+            case var t when t == (0, 1):
+                return wallKickData[0, testNumber];
+            case var t when t == (1, 0):
+                return wallKickData[1, testNumber];
+            case var t when t == (1, 2):
+                return wallKickData[2, testNumber];
+            case var t when t == (2, 1):
+                return wallKickData[3, testNumber];
+            case var t when t == (2, 3):
+                return wallKickData[4, testNumber];
+            case var t when t == (3, 2):
+                return wallKickData[5, testNumber];
+            case var t when t == (3, 0):
+                return wallKickData[6, testNumber];
+            case var t when t == (0, 3):
+                return wallKickData[7, testNumber];
+            default:
+                return new Vector3(0, 0);
+        }
+    }
+    public static Vector3 getWallKickDataI(int from, int to, int testNumber)
+    {
+        Vector3[,] wallKickDataI = new Vector3[,]    {
+        {new Vector3(0,0), new Vector3(-2,0), new Vector3(1,0), new Vector3(-2,-1), new Vector3(1,2)},
+        {new Vector3(0,0), new Vector3(2,0), new Vector3(-1,0), new Vector3(2,1), new Vector3(-1,-2)},
+        {new Vector3(0,0), new Vector3(-1,0), new Vector3(2,0), new Vector3(-1,2), new Vector3(2,-1)},
+        {new Vector3(0,0), new Vector3(1,0), new Vector3(-2,0), new Vector3(1,-2), new Vector3(-2,1)},
+        {new Vector3(0,0), new Vector3(2,0), new Vector3(-1,0), new Vector3(2,1), new Vector3(-1,-2)},
+        {new Vector3(0,0), new Vector3(-2,0), new Vector3(1,0), new Vector3(-2,-1), new Vector3(1,2)},
+        {new Vector3(0,0), new Vector3(1,0), new Vector3(-2,0), new Vector3(1,-2), new Vector3(-2,1)},
+        {new Vector3(0,0), new Vector3(-1,0), new Vector3(2,0), new Vector3(-1,2), new Vector3(2,-1)}};
+        var rotation = (from, to);
+        switch (rotation)
+        {
+            case var t when t == (0, 1):
+                return wallKickDataI[0, testNumber];
+            case var t when t == (1, 0):
+                return wallKickDataI[1, testNumber];
+            case var t when t == (1, 2):
+                return wallKickDataI[2, testNumber];
+            case var t when t == (2, 1):
+                return wallKickDataI[3, testNumber];
+            case var t when t == (2, 3):
+                return wallKickDataI[4, testNumber];
+            case var t when t == (3, 2):
+                return wallKickDataI[5, testNumber];
+            case var t when t == (3, 0):
+                return wallKickDataI[6, testNumber];
+            case var t when t == (0, 3):
+                return wallKickDataI[7, testNumber];
+            default:
+                return new Vector3(0, 0);
+        }
+    }
 }

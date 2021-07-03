@@ -31,10 +31,7 @@ public class GameManager : MonoBehaviour
     {
         transform.position = new Vector3(-(xLength - 1) * cellSize / 2, -(yLength - 1) * cellSize / 2, 0);
         grid = new Grid(xLength, yLength, cellSize, transform, backtile);
-        for (int i = 0; i <= previews; i++)
-        {
-            bag.Add(Random.Range(0, 7));
-        }
+        addToBag();
         currentPiece = bag[0];
         playerController = player.GetComponent<PlayerController>();
     }
@@ -44,8 +41,27 @@ public class GameManager : MonoBehaviour
         currentPiece = bag[0];
         bag.Add(Random.Range(0, 7));
         playerController.placeTiles();
+        if (bag.Count < previews)
+        {
+            addToBag();
+        }
 
         grid.clearFullLines();
+    }
+
+    private void addToBag()
+    {
+        List<int> prebag = new List<int>();
+        for (int i = 0; i < 7; i++)
+        {
+            int random = Random.Range(0, 7);
+            while (prebag.Contains(random))
+            {
+                random = Random.Range(0, 7);
+            }
+            prebag.Add(random);
+        }
+        bag.AddRange(prebag);
     }
 
     public GameObject getPiece(int piece)

@@ -8,6 +8,9 @@ public class PieceScript : MonoBehaviour
     public GameManager gameManager;
     public Grid grid;
     public Vector3 centerOfRotation;
+    public Vector3 centerOfMass;
+    public int pieceIndex;
+    private int rotationState = 0;
 
     // Returns true if something is to the left
     public bool checkLeft()
@@ -70,34 +73,58 @@ public class PieceScript : MonoBehaviour
 
     public void rotateRight()
     {
-        tryRotate(Mathf.PI * 1.5f);
+        tryRotate(1);
     }
     public void rotateLeft()
     {
-        tryRotate(Mathf.PI * 0.5f);
+        tryRotate(3);
     }
     public void rotate180()
     {
-        tryRotate(Mathf.PI);
+        tryRotate(2);
     }
 
-    // Attempts rotate piece for the given angle, in radians.
-    public void tryRotate(float angle)
+    // Attempts to rotate from the current state to the next state. 0 = spawn state, 1 = right from spawn, 2 = 180 degree, 3 = left from spawn
+    public void tryRotate(int state)
     {
-        for (int i = 0; i < tiles.Length; i++)
+        float angle = (-Mathf.PI) * state / 2;
+        int nextRotationState = (state + rotationState) % 4;
+
+        // Iterate through all the wall kick tests
+        int test = 0;
+        NextTest:
+        if (test == 5)
         {
-            Utils.drawPoint(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle),0.5f, 1f);
+            Debug.Log("Rotate failed");
+            return;
         }
+        //Vector3 wallKickTranslation = new Vector3(0, 0, 0);
+        Vector3 wallKickTranslation = pieceIndex != 0 ? Utils.getWallKickData(rotationState, nextRotationState, test) : Utils.getWallKickDataI(rotationState, nextRotationState, test);
+        // Debug drawing ---------
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (grid.getOccupied(grid.getGridCoordinate(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle))))
+            Utils.drawPoint(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle) + wallKickTranslation * gameManager.cellSize, 0.5f, 1f);
+        } // --------------
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (grid.getOccupied(grid.getGridCoordinate(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle)) + wallKickTranslation))
             {
-                return;
+                Debug.Log("Found wall " +test);
+                test++;
+                goto NextTest;
             }
         }
         for (int i = 0; i < tiles.Length; i++)
         {
             tiles[i].transform.position = Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle);
         }
+        transform.position = transform.position + (pieceIndex != 0 ? Utils.getWallKickData(rotationState, nextRotationState, test) : Utils.getWallKickDataI(rotationState, nextRotationState, test)) * gameManager.cellSize;
+        rotationState = nextRotationState;
+    }
+    private Vector3 getWallKickData(int from, int to, int test)
+    {
+        Vector3 translation = new Vector3(0,0,0);
+        
+        return translation;
     }
 }
