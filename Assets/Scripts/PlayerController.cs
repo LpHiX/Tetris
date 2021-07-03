@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
         }
         gameManager.bag.RemoveAt(0);
         gameManager.currentInt = gameManager.bag[0];
-        if (gameManager.bag.Count < gameManager.previews)
+        if (gameManager.bag.Count <= gameManager.previews)
         {
             gameManager.addToBag();
         }
@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
         pieceScript.gameManager = gameManager;
         pieceScript.grid = grid;
         pieceScript.pieceIndex = gameManager.currentInt;
+        previewUI.updatePreviews();
         //StopCoroutine(Gravity());
         //StartCoroutine(Gravity());
     }

@@ -33,9 +33,14 @@ public class GameManager : MonoBehaviour
         transform.position = new Vector3(-(xLength - 1) * cellSize / 2, -(yLength - 1) * cellSize / 2, 0);
         grid = new Grid(xLength, yLength, cellSize, transform, backtile);
         previewUI = new PreviewUI(this, grid);
+
+        // Padding the bag, as PlayerController.newpiece() removes the first item
+        bag.Add(0);
         addToBag();
+
         currentInt = bag[0];
         playerController = player.GetComponent<PlayerController>();
+        previewUI.updatePreviews();
     }
     public void placePiece()
     {
@@ -45,17 +50,26 @@ public class GameManager : MonoBehaviour
 
     public void addToBag()
     {
-        List<int> prebag = new List<int>();
-        for (int i = 0; i < 7; i++)
+        do
         {
-            int random = Random.Range(0, 7);
-            while (prebag.Contains(random))
+            List<int> prebag = new List<int>();
+            for (int i = 0; i < 7; i++)
             {
-                random = Random.Range(0, 7);
+                int random = Random.Range(0, 7);
+                while (prebag.Contains(random))
+                {
+                    random = Random.Range(0, 7);
+                }
+                prebag.Add(random);
             }
-            prebag.Add(random);
-        }
-        bag.AddRange(prebag);
+            string debug = "Prebag: ";
+            foreach (int i in prebag)
+            {
+                debug += i + ", ";
+            }
+            Debug.Log(debug);
+            bag.AddRange(prebag);
+        } while (bag.Count <= previews);
     }
 
     public GameObject getPiece(int piece)

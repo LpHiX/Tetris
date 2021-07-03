@@ -7,6 +7,7 @@ public class PreviewUI
     private GameManager gameManager;
     private Grid grid;
     private GameObject backtile;
+    private PieceScript[] previewItems;
 
     public GameObject heldPiece;
     public PieceScript heldPieceScript;
@@ -15,7 +16,8 @@ public class PreviewUI
     {
         this.gameManager = gameManager;
         this.grid = grid;
-        this.backtile = grid.backtile;
+        backtile = grid.backtile;
+        previewItems = new PieceScript[gameManager.previews];
 
         createBackdrops();
     }
@@ -55,6 +57,33 @@ public class PreviewUI
             }
         }
 
+        //Create Preview List
+
+
+    }
+
+    public void updatePreviews()
+    {
+        for(int i = 0; i < gameManager.previews; i++)
+        {
+            destroyPreview(i);
+            addToPreview(gameManager.bag[i + 1], i);
+        }
+    }
+
+    private void addToPreview(int pieceIndex, int preview)
+    {
+        GameObject previewObject = GameObject.Instantiate(gameManager.getPiece(pieceIndex));
+        previewItems[preview] = previewObject.GetComponent<PieceScript>();
+        previewObject.transform.position = grid.getWorldPosition(3 + gameManager.xLength, gameManager.yLength - 3 * preview - 2) - previewItems[preview].centerOfMass;
+    }
+
+    private void destroyPreview(int preview)
+    {
+        if(previewItems[preview] != null)
+        {
+            previewItems[preview].destroyThis();
+        }
     }
 
 }
