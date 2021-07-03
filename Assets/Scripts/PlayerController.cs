@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     bool rightPressed;
     bool leftPressed;
+    bool softDropping;
 
     private void Awake()
     {
@@ -41,7 +42,6 @@ public class PlayerController : MonoBehaviour
         controls.Player.Right.started += ctx =>
         {
             rightPressed = true;
-            Debug.Log("Right");
             if (!pieceScript.checkRight())
             {
                 DAStimer = DAS;
@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
         controls.Player.Left.started += ctx =>
         {
             leftPressed = true;
-            Debug.Log("Left");
             if (!pieceScript.checkLeft())
             {
                 DAStimer = DAS;
@@ -60,6 +59,8 @@ public class PlayerController : MonoBehaviour
             }
         };
         controls.Player.Left.canceled += ctx => leftPressed = false;
+        controls.Player.SoftDrop.started += ctx => softDropping = true;
+        controls.Player.SoftDrop.canceled += ctx => softDropping = false;
     }
 
     void Start()
@@ -89,6 +90,7 @@ public class PlayerController : MonoBehaviour
 
         if (rightPressed) moveRight();
         if (leftPressed) moveLeft();
+        if (softDropping) softDrop();
     }
 
     public void hold()
@@ -183,7 +185,14 @@ public class PlayerController : MonoBehaviour
     {
         if (!pieceScript.checkLeft())
         {
-            if (DAStimer <= 0 && ARRtimer <= 0)
+            if (DAStimer <= 0 && ARR == 0)
+            {
+                while (!pieceScript.checkLeft())
+                {
+                    transform.position = transform.position + new Vector3(-gameManager.cellSize, 0, 0);
+                }
+            }
+            else if (DAStimer <= 0 && ARRtimer <= 0)
             {
                 ARRtimer = ARR;
                 transform.position = transform.position + new Vector3(-gameManager.cellSize, 0, 0);
@@ -195,16 +204,30 @@ public class PlayerController : MonoBehaviour
     {
         if (!pieceScript.checkRight())
         {
-            if (DAStimer <= 0 && ARRtimer <= 0)
+            if (DAStimer <= 0 && ARR == 0)
+            {
+                while (!pieceScript.checkRight())
+                {
+                    transform.position = transform.position + new Vector3(gameManager.cellSize, 0, 0);
+                }
+            }
+            else if (DAStimer <= 0 && ARRtimer <= 0)
             {
                 ARRtimer = ARR;
                 transform.position = transform.position + new Vector3(gameManager.cellSize, 0, 0);
             }
         }
     }
-    public void onSoftDrop()
+    public void softDrop()
     {
-        if (SDFtimer <= 0)
+        if (SDF == 0)
+        {
+            while (!pieceScript.checkDown())
+            {
+                transform.position = transform.position + new Vector3(0, -gameManager.cellSize, 0);
+            }
+        }
+        else if (SDFtimer <= 0)
         {
             SDFtimer = SDF;
             if (!pieceScript.checkDown())

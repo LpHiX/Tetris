@@ -62,12 +62,13 @@ public class GameManager : MonoBehaviour
                 }
                 prebag.Add(random);
             }
-            string debug = "Prebag: ";
+            // Debugging prebag
+            /*string debug = "Prebag: ";
             foreach (int i in prebag)
             {
                 debug += i + ", ";
             }
-            Debug.Log(debug);
+            Debug.Log(debug);*/
             bag.AddRange(prebag);
         } while (bag.Count <= previews);
     }

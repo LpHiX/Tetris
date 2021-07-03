@@ -423,8 +423,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game: {fileID: 1964369452}
   DAS: 0.133
-  ARR: 0
-  SDF: 0
+  ARR: 0.01
+  SDF: 0.01
 --- !u!114 &1968966053
 MonoBehaviour:
   m_ObjectHideFlags: 0
