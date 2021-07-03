@@ -216,6 +216,10 @@ MonoBehaviour:
   - {fileID: 3523522811599368849}
   - {fileID: 3523522811697723011}
   - {fileID: 3523522812744570642}
+  gameManager: {fileID: 0}
+  centerOfRotation: {x: 0, y: 0, z: 0}
+  centerOfMass: {x: 0, y: 0.32, z: 0}
+  pieceIndex: 1
 --- !u!1 &3523522812744570642
 GameObject:
   m_ObjectHideFlags: 0

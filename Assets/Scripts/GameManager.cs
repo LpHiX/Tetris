@@ -18,11 +18,12 @@ public class GameManager : MonoBehaviour
     public GameObject zPiece;
 
     public int previews;
-    public static int currentPiece;
+    public int currentInt;
 
-    private List<int> bag = new List<int>();
+    public List<int> bag = new List<int>();
     public GameObject player;
     public Grid grid;
+    public PreviewUI previewUI;
 
     private PlayerController playerController;
 
@@ -31,25 +32,18 @@ public class GameManager : MonoBehaviour
     {
         transform.position = new Vector3(-(xLength - 1) * cellSize / 2, -(yLength - 1) * cellSize / 2, 0);
         grid = new Grid(xLength, yLength, cellSize, transform, backtile);
+        previewUI = new PreviewUI(this, grid);
         addToBag();
-        currentPiece = bag[0];
+        currentInt = bag[0];
         playerController = player.GetComponent<PlayerController>();
     }
     public void placePiece()
     {
-        bag.RemoveAt(0);
-        currentPiece = bag[0];
-        bag.Add(Random.Range(0, 7));
         playerController.placeTiles();
-        if (bag.Count < previews)
-        {
-            addToBag();
-        }
-
         grid.clearFullLines();
     }
 
-    private void addToBag()
+    public void addToBag()
     {
         List<int> prebag = new List<int>();
         for (int i = 0; i < 7; i++)
@@ -85,10 +79,5 @@ public class GameManager : MonoBehaviour
             default:
                 return tPiece;
         }
-    }
-    
-    public static int getCurrentInt()
-    {
-        return currentPiece;
     }
 }

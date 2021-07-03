@@ -95,7 +95,6 @@ public class PieceScript : MonoBehaviour
         NextTest:
         if (test == 5)
         {
-            Debug.Log("Rotate failed");
             return;
         }
         //Vector3 wallKickTranslation = new Vector3(0, 0, 0);
@@ -109,7 +108,6 @@ public class PieceScript : MonoBehaviour
         {
             if (grid.getOccupied(grid.getGridCoordinate(Utils.returnRotate(tiles[i].transform.position, transform.TransformPoint(centerOfRotation), angle)) + wallKickTranslation))
             {
-                Debug.Log("Found wall " +test);
                 test++;
                 goto NextTest;
             }
@@ -121,10 +119,12 @@ public class PieceScript : MonoBehaviour
         transform.position = transform.position + (pieceIndex != 0 ? Utils.getWallKickData(rotationState, nextRotationState, test) : Utils.getWallKickDataI(rotationState, nextRotationState, test)) * gameManager.cellSize;
         rotationState = nextRotationState;
     }
-    private Vector3 getWallKickData(int from, int to, int test)
+
+    public void destroyThis()
     {
-        Vector3 translation = new Vector3(0,0,0);
-        
-        return translation;
+        foreach (GameObject tile in tiles){
+            Destroy(tile);
+        }
+        Destroy(this);
     }
 }

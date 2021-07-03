@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public GameObject game;
 
     private GameManager gameManager;
+    private PreviewUI previewUI;
     private Grid grid;
     private int piece;
     private GameObject currentObject;
@@ -20,17 +21,14 @@ public class PlayerController : MonoBehaviour
     private float ARRtimer = 0;
     private float SDFtimer = 0;
 
+    private bool holdCooldown = false;
+
     void Start()
     {
         gameManager = game.GetComponent<GameManager>();
         grid = gameManager.grid;
-        transform.position = grid.getWorldPosition(Mathf.Floor((gameManager.xLength-1)/2), gameManager.yLength-1);
-        currentObject = Instantiate(gameManager.getPiece(GameManager.getCurrentInt()), transform, false) ;
-        pieceScript = currentObject.GetComponent<PieceScript>();
-        pieceScript.gameManager = gameManager;
-        pieceScript.grid = grid;
-        pieceScript.pieceIndex = GameManager.getCurrentInt();
-        //StartCoroutine(Gravity());
+        previewUI = gameManager.previewUI;
+        newPiece();
     }
 
     // Update is called once per frame
@@ -48,8 +46,60 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("rotateRight")) rotateRight();
         if (Input.GetButtonDown("rotate180")) rotate180();
         if (Input.GetButtonDown("hardDrop")) hardDrop() ;
+        if (Input.GetButtonDown("hold")) hold();
 
         if (Input.GetKeyDown("v")) debugTiles();
+    }
+
+    public void hold()
+    {
+        if (previewUI.heldPiece != null) {
+            if (holdCooldown == false)
+            {
+                int heldInt = previewUI.heldPieceScript.pieceIndex;
+                Debug.Log(heldInt);
+                pieceScript.destroyThis();
+                previewUI.holdPiece(Instantiate(gameManager.getPiece(gameManager.currentInt)));
+                gameManager.currentInt = heldInt;
+                transform.position = grid.getWorldPosition(Mathf.Floor((gameManager.xLength - 1) / 2), gameManager.yLength - 1);
+                currentObject = Instantiate(gameManager.getPiece(heldInt), transform, false);
+                pieceScript = currentObject.GetComponent<PieceScript>();
+                pieceScript.gameManager = gameManager;
+                pieceScript.grid = grid;
+                pieceScript.pieceIndex = gameManager.currentInt;
+                holdCooldown = true;
+            }
+        }
+        else
+        {
+            pieceScript.destroyThis();
+            previewUI.holdPiece(Instantiate(gameManager.getPiece(gameManager.currentInt)));
+            currentObject = null;
+            newPiece();
+            holdCooldown = true;
+        }
+    }
+
+    public void newPiece()
+    {
+        if(currentObject != null)
+        {
+            Destroy(currentObject);
+        }
+        gameManager.bag.RemoveAt(0);
+        gameManager.currentInt = gameManager.bag[0];
+        if (gameManager.bag.Count < gameManager.previews)
+        {
+            gameManager.addToBag();
+        }
+        transform.position = grid.getWorldPosition(Mathf.Floor((gameManager.xLength - 1) / 2), gameManager.yLength - 1);
+        currentObject = Instantiate(gameManager.getPiece(gameManager.currentInt), transform, false);
+        pieceScript = currentObject.GetComponent<PieceScript>();
+        pieceScript.gameManager = gameManager;
+        pieceScript.grid = grid;
+        pieceScript.pieceIndex = gameManager.currentInt;
+        //StopCoroutine(Gravity());
+        //StartCoroutine(Gravity());
     }
 
     public void hardDrop()
@@ -70,15 +120,8 @@ public class PlayerController : MonoBehaviour
             int y = Mathf.RoundToInt(grid.getGridCoordinate(pieceScript.tiles[i].transform.position).y);
             grid.setPlaced(x, y, pieceScript.tiles[i]);
         }
-        Destroy(currentObject);
-        transform.position = grid.getWorldPosition(Mathf.Floor((gameManager.xLength - 1) / 2), gameManager.yLength - 1);
-        currentObject = Instantiate(gameManager.getPiece(GameManager.getCurrentInt()), transform, false);
-        pieceScript = currentObject.GetComponent<PieceScript>();
-        pieceScript.gameManager = gameManager;
-        pieceScript.grid = grid;
-        pieceScript.pieceIndex = GameManager.getCurrentInt();
-        //StopCoroutine(Gravity());
-        //StartCoroutine(Gravity());
+        holdCooldown = false;
+        newPiece();
     }
 
     void rotateRight()

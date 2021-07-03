@@ -9,7 +9,7 @@ public class Grid
     private float cellSize;
     private Transform mainObject;
     private GameObject[,] gridArray;
-    private GameObject backtile;
+    public GameObject backtile;
 
     //Grid height has to be x2, to account for if things gets pushed up and also to account for where blocks spawn
     public Grid(int width, int height, float cellSize, Transform mainObject = null, GameObject backtile = null)

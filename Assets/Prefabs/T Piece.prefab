@@ -380,3 +380,7 @@ MonoBehaviour:
   - {fileID: 1271655886050376928}
   - {fileID: 1271655884167192886}
   - {fileID: 1271655885208809823}
+  gameManager: {fileID: 0}
+  centerOfRotation: {x: 0, y: 0, z: 0}
+  centerOfMass: {x: 0, y: 0.32, z: 0}
+  pieceIndex: 5
