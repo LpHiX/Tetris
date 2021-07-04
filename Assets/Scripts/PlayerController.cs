@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-
 public class PlayerController : MonoBehaviour
 {
     Controls controls;
@@ -13,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
     private PreviewUI previewUI;
     private Grid grid;
-    private int piece;
     private GameObject currentObject;
     private PieceScript pieceScript;
 
@@ -31,9 +28,11 @@ public class PlayerController : MonoBehaviour
     bool leftPressed;
     bool softDropping;
 
-    private void Awake()
+    void Start()
     {
-        controls = new Controls();
+        gameManager = game.GetComponent<GameManager>();
+
+        controls = gameManager.menuData.controls;
         controls.Player.RotateLeft.started += ctx => rotateLeft();
         controls.Player.RotateRight.started += ctx => rotateRight();
         controls.Player.Rotate180.started += ctx => rotate180();
@@ -49,6 +48,9 @@ public class PlayerController : MonoBehaviour
             }
         };
         controls.Player.Right.canceled += ctx => rightPressed = false;
+        Debug.Log(InputControlPath.ToHumanReadableString(
+            controls.Player.Left.bindings[0].effectivePath,
+            InputControlPath.HumanReadableStringOptions.OmitDevice));
         controls.Player.Left.started += ctx =>
         {
             leftPressed = true;
@@ -61,24 +63,18 @@ public class PlayerController : MonoBehaviour
         controls.Player.Left.canceled += ctx => leftPressed = false;
         controls.Player.SoftDrop.started += ctx => softDropping = true;
         controls.Player.SoftDrop.canceled += ctx => softDropping = false;
-    }
+        controls.Player.Restart.started += ctx => restartScene();
+        controls.Player.MainMenu.started += ctx => back();
 
-    void Start()
-    {
-        gameManager = game.GetComponent<GameManager>();
+        controls.Enable();
+
         grid = gameManager.grid;
         previewUI = gameManager.previewUI;
+
+        DAS = gameManager.menuData.DAS;
+        ARR = gameManager.menuData.ARR;
+        SDF = gameManager.menuData.SDF;
         newPiece();
-    }
-
-    private void OnEnable()
-    {
-        controls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Disable();
     }
 
     // Update is called once per frame
@@ -92,7 +88,14 @@ public class PlayerController : MonoBehaviour
         if (leftPressed) moveLeft();
         if (softDropping) softDrop();
     }
-
+    private void restartScene()
+    {
+        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+    }
+    private void back()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
     public void hold()
     {
         if (previewUI.heldPiece != null) {

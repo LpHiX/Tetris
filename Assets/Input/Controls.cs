@@ -81,6 +81,22 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e6755a8-975a-4c25-b8a8-cee3bb82eb6c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Main Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""c927eb4f-8417-48ce-8ad6-323cd3e2fc79"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -169,6 +185,28 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Rotate Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0870fd7e-68ba-4527-8559-becdd77326e8"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4cb7900f-3200-458d-b490-8bb4a430b14f"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Main Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -408,6 +446,8 @@ public class @Controls : IInputActionCollection, IDisposable
         m_Player_Right = m_Player.FindAction("Right", throwIfNotFound: true);
         m_Player_RotateLeft = m_Player.FindAction("Rotate Left", throwIfNotFound: true);
         m_Player_RotateRight = m_Player.FindAction("Rotate Right", throwIfNotFound: true);
+        m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
+        m_Player_MainMenu = m_Player.FindAction("Main Menu", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Submit = m_Menu.FindAction("Submit", throwIfNotFound: true);
@@ -474,6 +514,8 @@ public class @Controls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Right;
     private readonly InputAction m_Player_RotateLeft;
     private readonly InputAction m_Player_RotateRight;
+    private readonly InputAction m_Player_Restart;
+    private readonly InputAction m_Player_MainMenu;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -486,6 +528,8 @@ public class @Controls : IInputActionCollection, IDisposable
         public InputAction @Right => m_Wrapper.m_Player_Right;
         public InputAction @RotateLeft => m_Wrapper.m_Player_RotateLeft;
         public InputAction @RotateRight => m_Wrapper.m_Player_RotateRight;
+        public InputAction @Restart => m_Wrapper.m_Player_Restart;
+        public InputAction @MainMenu => m_Wrapper.m_Player_MainMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -519,6 +563,12 @@ public class @Controls : IInputActionCollection, IDisposable
                 @RotateRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateRight;
                 @RotateRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateRight;
                 @RotateRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotateRight;
+                @Restart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
+                @MainMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMainMenu;
+                @MainMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMainMenu;
+                @MainMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMainMenu;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -547,6 +597,12 @@ public class @Controls : IInputActionCollection, IDisposable
                 @RotateRight.started += instance.OnRotateRight;
                 @RotateRight.performed += instance.OnRotateRight;
                 @RotateRight.canceled += instance.OnRotateRight;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
+                @MainMenu.started += instance.OnMainMenu;
+                @MainMenu.performed += instance.OnMainMenu;
+                @MainMenu.canceled += instance.OnMainMenu;
             }
         }
     }
@@ -651,6 +707,8 @@ public class @Controls : IInputActionCollection, IDisposable
         void OnRight(InputAction.CallbackContext context);
         void OnRotateLeft(InputAction.CallbackContext context);
         void OnRotateRight(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
+        void OnMainMenu(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

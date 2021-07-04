@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public DataScript menuData;
+
     public int xLength = 10;
     public int yLength = 20;
     public float cellSize = 0.64f;
@@ -30,6 +32,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        menuData = GameObject.Find("Data").GetComponent<DataScript>();
+        xLength = menuData.width;
+        yLength = menuData.height;
+        previews = menuData.previews;
+
         transform.position = new Vector3(-(xLength - 1) * cellSize / 2, -(yLength - 1) * cellSize / 2, 0);
         grid = new Grid(xLength, yLength, cellSize, transform, backtile);
         previewUI = new PreviewUI(this, grid);

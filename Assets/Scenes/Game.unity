@@ -423,8 +423,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game: {fileID: 1964369452}
   DAS: 0.133
-  ARR: 0.01
-  SDF: 0.01
+  ARR: 0
+  SDF: 0
 --- !u!114 &1968966053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: d977d4442a9d9844ba48ff74b8b64a2a,
     type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:

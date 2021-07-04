@@ -68,6 +68,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "Restart",
+                    "type": "Button",
+                    "id": "1e6755a8-975a-4c25-b8a8-cee3bb82eb6c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Main Menu",
+                    "type": "Button",
+                    "id": "c927eb4f-8417-48ce-8ad6-323cd3e2fc79",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -156,6 +172,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Rotate Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0870fd7e-68ba-4527-8559-becdd77326e8",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4cb7900f-3200-458d-b490-8bb4a430b14f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Main Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
